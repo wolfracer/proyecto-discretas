@@ -81,7 +81,7 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B1ActionPerformed
-            Garchivo obj= new Garchivo();
+           Garchivo obj= new Garchivo();
             obj.setVisible(true);
             dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_B1ActionPerformed

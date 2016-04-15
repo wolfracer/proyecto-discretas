@@ -5,19 +5,39 @@
  */
 package clases;
 
+import java.io.File;
+import java.io.IOException;
+//Clase para solo permitir archivos de texto .txt
+ class MyCustomFilter extends javax.swing.filechooser.FileFilter {
+        @Override
+        public boolean accept(File file) {
+            // Allow only directories, or files with ".txt" extension
+            return file.isDirectory() || file.getAbsolutePath().endsWith(".txt");
+        }
+        @Override
+        public String getDescription() {
+            // This description will be displayed in the dialog,
+            // hard-coded = ugly, should be done via I18N
+            return "Text documents (*.txt)";
+        }
+    }
+
 /**
  *
  * @author fabcl
  */
 public class Garchivo extends javax.swing.JFrame {
 
-    /**
-     * Creates new form archivo
-     */
+    
     public Garchivo() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+     
+    }
+    //funcion que retorna el directorio del archivo escogido.
+    public static String directorio() {
+        return path;
     }
 
     /**
@@ -29,34 +49,58 @@ public class Garchivo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFileChooser2 = new javax.swing.JFileChooser();
+        jPanel1 = new javax.swing.JPanel();
+        fc = new javax.swing.JFileChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jFileChooser2.setCurrentDirectory(new java.io.File("C:\\"));
-            jFileChooser2.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jFileChooser2ActionPerformed(evt);
-                }
-            });
+        fc.setFileFilter(new MyCustomFilter());
+        fc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fcActionPerformed(evt);
+            }
+        });
 
-            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
-            layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jFileChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            );
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(fc, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(fc, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+        );
 
-            pack();
-        }// </editor-fold>//GEN-END:initComponents
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
-    private void jFileChooser2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFileChooser2ActionPerformed
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void fcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fcActionPerformed
+       int returnVal = fc.showOpenDialog(this);
+    if (returnVal == fc.APPROVE_OPTION) {
+        //se guarda el archivo seleccionado por el filechooser
+        File file = fc.getSelectedFile();
+        try {
+          //se obtiene la cadena de direccion del arichivo y se guarda en path
+          path=file.getCanonicalPath();
+        } catch (IOException ex) {
+          System.out.println("problem accessing file"+file.getAbsolutePath());
+        }
+    } else {
+        System.out.println("File access cancelled by user.");
+    }  // TODO add your handling code here:
+    }//GEN-LAST:event_fcActionPerformed
 
     /**
      * @param args the command line arguments
@@ -84,7 +128,6 @@ public class Garchivo extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Garchivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -93,8 +136,9 @@ public class Garchivo extends javax.swing.JFrame {
             }
         });
     }
-
+     public static String path;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFileChooser jFileChooser2;
+    private javax.swing.JFileChooser fc;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
